@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telegram Tamagotchi</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Telegram WebApp SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
@@ -22,11 +21,6 @@
     </div>
     
     <div class="container" id="gameContainer" style="display: none;">
-        <div class="telegram-info">
-            <span>👤 Игрок: <span id="userName">Гость</span></span>
-            <button onclick="showTelegramInfo()" class="btn-small">ℹ️</button>
-        </div>
-        
         <h1>🐣 Мой питомец</h1>
         
         <div class="pet-area">
@@ -62,13 +56,14 @@
             <button onclick="feed()" class="btn">🍗 Покормить</button>
             <button onclick="play()" class="btn">🎮 Поиграть</button>
             <button onclick="sleep()" class="btn">💤 Уложить спать</button>
-            <button onclick="saveToTelegram()" class="btn">💾 Сохранить</button>
+            <button onclick="saveGame()" class="btn">💾 Сохранить</button>
+            <button onclick="openShop()" class="btn shop-btn">🛍️ Магазин</button>
         </div>
         
         <div class="info">
             <p>💰 Монеток: <span id="coins">10</span></p>
+            <p>💎 Кристаллов: <span id="crystals">0</span></p>
             <p>🏆 Уровень: <span id="level">1</span></p>
-            <p>📊 Опыт: <span id="xp">0</span>/100</p>
         </div>
         
         <div class="telegram-test">
@@ -77,7 +72,33 @@
         </div>
     </div>
     
-    <!-- Подключаем наши скрипты -->
+    <!-- МАГАЗИН (добавлен в конце) -->
+    <div id="shopModal" class="modal">
+        <div class="modal-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0;">🛍️ Магазин</h2>
+                <button onclick="closeShop()" style="
+                    background: #ff6b6b;
+                    color: white;
+                    border: none;
+                    border-radius: 50%;
+                    width: 30px;
+                    height: 30px;
+                    cursor: pointer;
+                    font-size: 20px;
+                ">×</button>
+            </div>
+            
+            <div id="shopItems">
+                <!-- Товары будут здесь -->
+            </div>
+            
+            <button onclick="closeShop()" class="btn" style="width: 100%; margin-top: 20px;">
+                Закрыть
+            </button>
+        </div>
+    </div>
+    
     <script src="telegram.js"></script>
     <script src="game.js"></script>
 </body>
