@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Tamagotchi</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Telegram WebApp SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div id="loading" style="
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-size: 24px;
+        color: white;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    ">
+        🔄 Загрузка игры...
+    </div>
+    
+    <div class="container" id="gameContainer" style="display: none;">
+        <div class="telegram-info">
+            <span>👤 Игрок: <span id="userName">Гость</span></span>
+            <button onclick="showTelegramInfo()" class="btn-small">ℹ️</button>
+        </div>
+        
+        <h1>🐣 Мой питомец</h1>
+        
+        <div class="pet-area">
+            <div class="pet" id="pet">😊</div>
+            <div class="pet-name" id="petName">Бобик</div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat">
+                <span>🍗 Голод:</span>
+                <div class="bar">
+                    <div class="fill" id="hungerBar" style="width: 70%"></div>
+                </div>
+                <span id="hungerText">70%</span>
+            </div>
+            <div class="stat">
+                <span>🎭 Настроение:</span>
+                <div class="bar">
+                    <div class="fill" id="moodBar" style="width: 50%"></div>
+                </div>
+                <span id="moodText">50%</span>
+            </div>
+            <div class="stat">
+                <span>💤 Энергия:</span>
+                <div class="bar">
+                    <div class="fill" id="energyBar" style="width: 90%"></div>
+                </div>
+                <span id="energyText">90%</span>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <button onclick="feed()" class="btn">🍗 Покормить</button>
+            <button onclick="play()" class="btn">🎮 Поиграть</button>
+            <button onclick="sleep()" class="btn">💤 Уложить спать</button>
+            <button onclick="saveToTelegram()" class="btn">💾 Сохранить</button>
+        </div>
+        
+        <div class="info">
+            <p>💰 Монеток: <span id="coins">10</span></p>
+            <p>🏆 Уровень: <span id="level">1</span></p>
+            <p>📊 Опыт: <span id="xp">0</span>/100</p>
+        </div>
+        
+        <div class="telegram-test">
+            <button onclick="testTelegram()" class="btn-test">🔧 Тест Telegram</button>
+            <div id="telegramStatus"></div>
+        </div>
+    </div>
+    
+    <!-- Подключаем наши скрипты -->
+    <script src="telegram.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
