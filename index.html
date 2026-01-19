@@ -3,102 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Tamagotchi</title>
+    <title>Pixel Tamagotchi</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Пиксельный шрифт -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="loading" style="
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        font-size: 24px;
-        color: white;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    ">
-        🔄 Загрузка игры...
-    </div>
-    
-    <div class="container" id="gameContainer" style="display: none;">
-        <h1>🐣 Мой питомец</h1>
-        
-        <div class="pet-area">
-            <div class="pet" id="pet">😊</div>
-            <div class="pet-name" id="petName">Бобик</div>
-        </div>
-        
-        <div class="stats">
-            <div class="stat">
-                <span>🍗 Голод:</span>
-                <div class="bar">
-                    <div class="fill" id="hungerBar" style="width: 70%"></div>
-                </div>
-                <span id="hungerText">70%</span>
-            </div>
-            <div class="stat">
-                <span>🎭 Настроение:</span>
-                <div class="bar">
-                    <div class="fill" id="moodBar" style="width: 50%"></div>
-                </div>
-                <span id="moodText">50%</span>
-            </div>
-            <div class="stat">
-                <span>💤 Энергия:</span>
-                <div class="bar">
-                    <div class="fill" id="energyBar" style="width: 90%"></div>
-                </div>
-                <span id="energyText">90%</span>
-            </div>
-        </div>
-        
-        <div class="actions">
-            <button onclick="feed()" class="btn">🍗 Покормить</button>
-            <button onclick="play()" class="btn">🎮 Поиграть</button>
-            <button onclick="sleep()" class="btn">💤 Уложить спать</button>
-            <button onclick="saveGame()" class="btn">💾 Сохранить</button>
-            <button onclick="openShop()" class="btn shop-btn">🛍️ Магазин</button>
-        </div>
-        
-        <div class="info">
-            <p>💰 Монеток: <span id="coins">10</span></p>
-            <p>💎 Кристаллов: <span id="crystals">0</span></p>
-            <p>🏆 Уровень: <span id="level">1</span></p>
-        </div>
-        
-        <div class="telegram-test">
-            <button onclick="testTelegram()" class="btn-test">🔧 Тест Telegram</button>
-            <div id="telegramStatus"></div>
+    <!-- Экран загрузки -->
+    <div id="loading" class="loading-screen">
+        <div class="loading-content">
+            <div class="pixel-loader"></div>
+            <p class="loading-text">🕹️ Загрузка игры...</p>
         </div>
     </div>
     
-    <!-- МАГАЗИН (добавлен в конце) -->
-    <div id="shopModal" class="modal">
-        <div class="modal-content">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h2 style="margin: 0;">🛍️ Магазин</h2>
-                <button onclick="closeShop()" style="
-                    background: #ff6b6b;
-                    color: white;
-                    border: none;
-                    border-radius: 50%;
-                    width: 30px;
-                    height: 30px;
-                    cursor: pointer;
-                    font-size: 20px;
-                ">×</button>
+    <!-- Основной контейнер игры -->
+    <div class="container" id="gameContainer">
+        <!-- Заголовок -->
+        <div class="pixel-title">
+            <h1>🐣 МОЙ ПИТОМЕЦ</h1>
+            <div class="title-border"></div>
+        </div>
+        
+        <!-- Секция питомца -->
+        <div class="pet-section">
+            <div class="pet-container">
+                <div class="pet-frame">
+                    <!-- Питомец будет здесь -->
+                    <div id="pet-character" class="pet-character"></div>
+                </div>
+                <h2 id="pet-name" class="pet-name">БОБИК</h2>
             </div>
             
-            <div id="shopItems">
-                <!-- Товары будут здесь -->
+            <!-- Статусы -->
+            <div class="stats-panel">
+                <div class="stat-row">
+                    <span class="stat-icon">🍗</span>
+                    <span class="stat-label">ГОЛОД:</span>
+                    <div class="pixel-bar">
+                        <div class="pixel-fill" id="hungerBar"></div>
+                    </div>
+                    <span id="hungerText" class="stat-value">83%</span>
+                </div>
+                
+                <div class="stat-row">
+                    <span class="stat-icon">🎭</span>
+                    <span class="stat-label">НАСТРОЕНИЕ:</span>
+                    <div class="pixel-bar">
+                        <div class="pixel-fill" id="moodBar"></div>
+                    </div>
+                    <span id="moodText" class="stat-value">54%</span>
+                </div>
+                
+                <div class="stat-row">
+                    <span class="stat-icon">💤</span>
+                    <span class="stat-label">ЭНЕРГИЯ:</span>
+                    <div class="pixel-bar">
+                        <div class="pixel-fill" id="energyBar"></div>
+                    </div>
+                    <span id="energyText" class="stat-value">89%</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Кнопки действий -->
+        <div class="actions-panel">
+            <div class="button-row">
+                <button onclick="feed()" class="pixel-btn action-btn">
+                    <span class="btn-icon">🍗</span>
+                    <span class="btn-text">КОРМИТЬ</span>
+                </button>
+                <button onclick="play()" class="pixel-btn action-btn">
+                    <span class="btn-icon">🎮</span>
+                    <span class="btn-text">ИГРАТЬ</span>
+                </button>
             </div>
             
-            <button onclick="closeShop()" class="btn" style="width: 100%; margin-top: 20px;">
-                Закрыть
+            <div class="button-row">
+                <button onclick="sleep()" class="pixel-btn action-btn">
+                    <span class="btn-icon">💤</span>
+                    <span class="btn-text">СПАТЬ</span>
+                </button>
+                <button onclick="saveGame()" class="pixel-btn action-btn">
+                    <span class="btn-icon">💾</span>
+                    <span class="btn-text">СОХРАНИТЬ</span>
+                </button>
+            </div>
+            
+            <div class="button-row">
+                <button onclick="openShop()" class="pixel-btn shop-btn">
+                    <span class="btn-icon">🛍️</span>
+                    <span class="btn-text">МАГАЗИН</span>
+                </button>
+                <button onclick="openDaily()" class="pixel-btn bonus-btn">
+                    <span class="btn-icon">🎁</span>
+                    <span class="btn-text">НАГРАДА</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Информационная панель -->
+        <div class="info-panel">
+            <div class="resource-row">
+                <div class="resource">
+                    <span class="resource-icon">💰</span>
+                    <span class="resource-label">МОНЕТЫ:</span>
+                    <span id="coins" class="resource-value">90</span>
+                </div>
+                <div class="resource">
+                    <span class="resource-icon">💎</span>
+                    <span class="resource-label">КРИСТАЛЛЫ:</span>
+                    <span id="crystals" class="resource-value">6</span>
+                </div>
+            </div>
+            
+            <div class="level-row">
+                <span class="level-icon">🏆</span>
+                <span class="level-label">УРОВЕНЬ:</span>
+                <span id="level" class="level-value">1</span>
+                <div class="xp-bar">
+                    <div class="xp-fill" id="xpBar"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Дополнительные кнопки -->
+        <div class="extra-actions">
+            <button onclick="openMiniGame()" class="pixel-btn small-btn">
+                🎮 Мини-игра
+            </button>
+            <button onclick="openRanking()" class="pixel-btn small-btn">
+                📊 Рейтинг
+            </button>
+            <button onclick="visitFriend()" class="pixel-btn small-btn">
+                👥 Посетить друга
+            </button>
+            <button onclick="testTelegram()" class="pixel-btn test-btn">
+                🔧 Тест API
             </button>
         </div>
+        
+        <!-- Статус Telegram -->
+        <div id="telegramStatus" class="telegram-status"></div>
     </div>
     
+    <!-- МОДАЛЬНОЕ ОКНО МАГАЗИНА -->
+    <div id="shopModal" class="modal">
+        <div class="modal-content pixel-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">🛍️ МАГАЗИН</h2>
+                <button onclick="closeShop()" class="modal-close">✕</button>
+            </div>
+            
+            <div class="shop-grid" id="shopItems">
+                <!-- Товары будут генерироваться через JS -->
+            </div>
+            
+            <div class="modal-footer">
+                <button onclick="closeShop()" class="pixel-btn close-btn">
+                    ЗАКРЫТЬ
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- МОДАЛЬНОЕ ОКНО ЕЖЕДНЕВНОЙ НАГРАДЫ -->
+    <div id="dailyModal" class="modal">
+        <div class="modal-content pixel-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">🎁 ЕЖЕДНЕВНАЯ НАГРАДА</h2>
+                <button onclick="closeDaily()" class="modal-close">✕</button>
+            </div>
+            
+            <div class="daily-content">
+                <div class="daily-icon">🎯</div>
+                <p class="daily-text">Заходи каждый день за наградой!</p>
+                <button onclick="claimDaily()" class="pixel-btn claim-btn">
+                    🎁 ПОЛУЧИТЬ НАГРАДУ
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Подключаем скрипты -->
     <script src="telegram.js"></script>
     <script src="game.js"></script>
 </body>
